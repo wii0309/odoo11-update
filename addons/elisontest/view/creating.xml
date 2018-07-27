@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <!-- Inherit Form View to Modify it -->
+       <record id="producttemplate_inherit" model="ir.ui.view">
+           <field name="name">producttemplate_inherit</field>
+           <field name="model">product.template</field>
+           <field name="inherit_id" ref="product.product_template_only_form_view"/>
+           <field name="arch" type="xml">
+               <xpath expr="//field[@name='list_price']" position="after">
+                   <field name="major_manufactor"/>
+                   <field name="brand"/>
+                   <field name="brand_type"/>
+                   <field name="year_season"/>
+                   <field name="category" options="{'no_create_edit': 1}"/>  #防止新增創建
+                   <field name="cloth"/>
+                   <field name="inventory_placee"/>
+                   <field name="man_type"/>
+                   <field name="big_type"/>
+                   <field name="mid_type"/>
+                   <field name="sml_type"/>
+                   <field name="color"/>
+                   <field name="size"/>
+               </xpath>
+           </field>
+       </record>
+    </data>
+</odoo>
