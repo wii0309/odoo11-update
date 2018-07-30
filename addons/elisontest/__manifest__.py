@@ -19,6 +19,16 @@
     'data': [
         'view/creating.xml',
         'view/manufactor_info.xml',
+        'view/big_type.xml',
+        'view/brand_type.xml',
+        'view/category.xml',
+        'view/inventory_place.xml',
+        'view/man_type.xml',
+        'view/mid_type.xml',
+        'view/sml_type.xml',
+        'view/year_season.xml',
+        'view/brand_info.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [

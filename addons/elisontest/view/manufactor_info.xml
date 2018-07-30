@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!--<record id="manufactor_info_tree" model="ir.ui.view">-->
-            <!--<field name="name">manufactor_info_tree</field>-->
-            <!--<field name="model">mm.info</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<tree string="">-->
-                    <!--<field name="name"/>-->
-                    <!--<field name="address"/>-->
-                <!--</tree>-->
-            <!--</field>-->
-        <!--</record>-->
-
 
        <record id="manufactor_info_form" model="ir.ui.view">
            <field name="name">manufactor_info_form</field>
@@ -27,19 +16,5 @@
                </form>
            </field>
        </record>
-    <!--<record id="manufactor_info_action" model="ir.actions.act_window">-->
-        <!--<field name="name">manufactor_info_action</field>-->
-        <!--<field name="type">ir.actions.act_window</field>-->
-        <!--<field name="res_model">mm.info</field>-->
-        <!--<field name="view_mode">tree,form</field>-->
-        <!--<field name="help" type="html">-->
-          <!--<p class="oe_view_nocontent_create">-->
-            <!--&lt;!&ndash; Add Text Here &ndash;&gt;-->
-          <!--</p><p>-->
-            <!--&lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
-          <!--</p>-->
-        <!--</field>-->
-    <!--</record>-->
-
     </data>
 </odoo>

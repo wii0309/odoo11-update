@@ -7,21 +7,35 @@
            <field name="model">product.template</field>
            <field name="inherit_id" ref="product.product_template_only_form_view"/>
            <field name="arch" type="xml">
-               <xpath expr="//field[@name='list_price']" position="after">
-                   <field name="major_manufactor"/>
-                   <field name="brand"/>
-                   <field name="brand_type"/>
-                   <field name="year_season"/>
-                   <field name="category" options="{'no_create_edit': 1}"/>  #防止新增創建
-                   <field name="cloth"/>
-                   <field name="inventory_placee"/>
-                   <field name="man_type"/>
-                   <field name="big_type"/>
-                   <field name="mid_type"/>
-                   <field name="sml_type"/>
-                   <field name="color"/>
-                   <field name="size"/>
-               </xpath>
+               <notebook>
+                   <page string="服裝">
+
+                       <!--<span STYLE='FONT-SIZE:25PX'>服裝</span>-->
+                       <group col="6">
+                           <xpath expr="." position="inside">
+                               <group >
+                               <field name="major_manufactor"/>
+                               <field name="brand" />
+                               <field name="brand_type"/>
+                               <field name="year_season"/>
+                               <field name="category" />
+                               <!--options="{'no_create_edit': 1}"-->
+                               <!--上面是可使many2one無法新增&創建-->
+                               </group>
+                               <group >
+                               <field name="cloth"/>
+                               <field name="inventory_place"/>
+                               <field name="man_type"/>
+                               <field name="big_type"/>
+                               <field name="mid_type"/>
+                               <field name="sml_type"/>
+                               <field name="color"/>
+                               <field name="size"/>
+                               </group>
+                           </xpath>
+                       </group>
+                   </page>
+               </notebook>
            </field>
        </record>
     </data>
