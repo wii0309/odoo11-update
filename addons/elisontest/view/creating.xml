@@ -9,17 +9,14 @@
            <field name="arch" type="xml">
                <notebook>
                    <page string="服裝">
-
-                       <!--<span STYLE='FONT-SIZE:25PX'>服裝</span>-->
-                       <group col="6">
-                           <xpath expr="." position="inside">
+                       <group col="3">
+                           <xpath expr="//page[@name='general_information']" position="before">
                                <group >
                                <field name="major_manufactor"/>
                                <field name="brand" />
                                <field name="brand_type"/>
                                <field name="year_season"/>
-                               <field name="category" />
-                               <!--options="{'no_create_edit': 1}"-->
+                               <field name="category" options="{'no_create_edit': 1}"/>
                                <!--上面是可使many2one無法新增&創建-->
                                </group>
                                <group >
