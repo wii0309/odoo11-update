@@ -30,6 +30,7 @@
         'view/brand_info.xml',
         'view/color_table.xml',
         'view/size_table.xml',
+        'view/product_product_inherit.xml',
 
 
     ],
