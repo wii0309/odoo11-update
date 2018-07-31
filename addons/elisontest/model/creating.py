@@ -16,7 +16,7 @@ class Addproductinfo(models.Model):
     big_type=fields.Many2one('big.type', string='大類')
     mid_type=fields.Many2one('mid.type', string='中類')
     sml_type=fields.Many2one('sml.type', string='小類')
-    color = fields.Many2many(comodel_name='color.table', string='顏色')
+    color_name = fields.Many2many(comodel_name='color.table', string='顏色')
     size = fields.Many2many(comodel_name='size.table', string='尺寸')
     cloth=fields.Char(string='布料')
     wholesale_price=fields.Float(string='批價',default=1.0, digits=dp.get_precision('Product Price'))
@@ -35,7 +35,6 @@ class Mminfo(models.Model):
 
     name = fields.Char(string='廠商名',required=True)
     address= fields.Char(string='地址')
-
 
 class Brand_info(models.Model):
     _name = 'brand.info'
@@ -74,12 +73,10 @@ class Big_type(models.Model):
 
     name = fields.Char(string='大類標籤')
 
-
 class Mid_type(models.Model):
     _name = 'mid.type'
 
     name = fields.Char(string='中類標籤')
-
 
 class Sml_type(models.Model):
     _name = 'sml.type'
@@ -95,6 +92,3 @@ class Size_table(models.Model):
     _name = 'size.table'
 
     name = fields.Char(string='所有尺寸')
-
-
-

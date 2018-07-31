@@ -9,24 +9,26 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='general_information']" position="after">
                     <page string="服裝">
-                        <group >
-                            <field name="major_manufactor"/>
-                            <field name="brand" />
-                            <field name="brand_type"/>
-                            <field name="year_season"/>
-                            <field name="category" options="{'no_create_edit': 1}"/>
-                            <!--上面是可使many2one無法新增&創建-->
-                        </group>
-                        <group >
-                            <field name="cloth"/>
-                            <field name="inventory_place"/>
-                            <field name="man_type"/>
-                            <field name="big_type"/>
-                            <field name="mid_type"/>
-                            <field name="sml_type"/>
-                            <field name="color" widget="many2many_tags"/>
-                            <field name="size" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-                            <!--上面是可使many2many無法新增&創建-->
+                        <group>
+                            <group >
+                                <field name="major_manufactor"/>
+                                <field name="brand" />
+                                <field name="brand_type"/>
+                                <field name="year_season"/>
+                                <field name="category" options="{'no_create_edit': 1}"/>
+                                <!--上面是可使many2one無法新增&創建-->
+                                <field name="cloth"/>
+                                <field name="man_type"/>
+                            </group>
+                            <group >
+                                <field name="inventory_place"/>
+                                <field name="big_type"/>
+                                <field name="mid_type"/>
+                                <field name="sml_type"/>
+                                <field name="color_name" widget="many2many_tags"/>
+                                <field name="size" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                <!--上面是可使many2many無法新增&創建-->
+                            </group>
                         </group>
                     </page>
                 </xpath>
