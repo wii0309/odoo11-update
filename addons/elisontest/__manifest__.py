@@ -28,6 +28,9 @@
         'view/sml_type.xml',
         'view/year_season.xml',
         'view/brand_info.xml',
+        'view/color_table.xml',
+        'view/size_table.xml',
+
 
     ],
     # only loaded in demonstration mode

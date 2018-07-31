@@ -1,26 +1,29 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
+from odoo.addons import decimal_precision as dp
 
 class Addproductinfo(models.Model):
 
     _inherit = 'product.template'
 
     major_manufactor=fields.Many2one('mm.info', string='主要廠商')
-    brand=fields.Many2one('brand.info', string='品牌')   #要用onchnge domain
+    brand=fields.Many2one('brand.info', string='品牌')
     brand_type=fields.Many2one('brand.type', string='品牌系列')
     year_season=fields.Many2one('year.season', string='年季')
-    category=fields.Many2one('category.name', string='品別') #下拉固定選項
+    category=fields.Many2one('category.name', string='品別')
     inventory_place=fields.Many2one('inventory.place', string='倉儲位置')
     man_type=fields.Many2one('man.type', string='系列')
     big_type=fields.Many2one('big.type', string='大類')
     mid_type=fields.Many2one('mid.type', string='中類')
     sml_type=fields.Many2one('sml.type', string='小類')
-    color = fields.Char(string='顏色')
-    size = fields.Char(string='尺寸')
+    color = fields.Many2many(comodel_name='color.table', string='顏色')
+    size = fields.Many2many(comodel_name='size.table', string='尺寸')
     cloth=fields.Char(string='布料')
+    wholesale_price=fields.Float(string='批價',default=1.0, digits=dp.get_precision('Product Price'))
+    quotation_price=fields.Float(string='貨品牌價',default=1.0, digits=dp.get_precision('Product Price'))
 
 
-    @api.onchange('major_manufactor')
+    @api.onchange('major_manufactor')  #Dynamic domain solution
     def onchange_brand(self):
         res = {}
         if self.major_manufactor:
@@ -82,5 +85,16 @@ class Sml_type(models.Model):
     _name = 'sml.type'
 
     name = fields.Char(string='小類標籤')
+
+class Color_table(models.Model):
+    _name = 'color.table'
+
+    name = fields.Char(string='主要顏色')
+
+class Size_table(models.Model):
+    _name = 'size.table'
+
+    name = fields.Char(string='所有尺寸')
+
 
 
