@@ -31,9 +31,8 @@
                                    <field name="mid_type"/>
                                    <field name="sml_type"/>
                                    <field name="color" widget="many2many_tags"/>
-                                   <!--options="{'no_quick_create': True, 'no_create_edit' : True}"-->
+                                   <field name="size" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                                    <!--上面是可使many2many無法新增&創建-->
-                                   <field name="size" widget="many2many_tags"/>
                                </group>
                            </xpath>
                        </group>

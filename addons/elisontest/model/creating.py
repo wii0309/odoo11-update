@@ -67,7 +67,7 @@ class Inventory_place(models.Model):
 class Man_type(models.Model):
     _name = 'man.type'
 
-    name = fields.Char(string='名子')
+    name = fields.Char(string='名')
 
 class Big_type(models.Model):
     _name = 'big.type'
