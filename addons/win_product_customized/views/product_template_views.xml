@@ -44,6 +44,8 @@
                            <footer>
                                <button type="object" name="partner_action_import" string="資料匯入" class="oe_highlight"/>
                                <button special="cancel" string="放棄"/>
+                               <span STYLE='FONT-SIZE:15PX'>__________________________________________________________</span>
+                               <button type="object" name="click_to_add_attribute" string="屬性建立" class="oe_highlight"/>
                            </footer>
                        </group>
                    </page>

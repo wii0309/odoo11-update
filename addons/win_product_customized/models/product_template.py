@@ -83,6 +83,9 @@ class Addproductinfo(models.Model):
                 continue
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xname = u'' + str((cell.value))
+                same_check = self.env['product.template'].search([('name', '=', xname)]) #做重複檔名的排除
+                if same_check:
+                    break
 
             cell = sheet.cell(row, 2) #廠商
             xmajor_manufactor = '-'
@@ -149,7 +152,7 @@ class Addproductinfo(models.Model):
             else:
                 xsize = 0
 
-            cell = sheet.cell(row, 18) #顏色
+            cell = sheet.cell(row, 18) #顏色     需要做分割s.p.l.i.t
             xcolor_name = '-'
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xcolor_name = u'' + str((cell.value))
@@ -238,6 +241,10 @@ class Addproductinfo(models.Model):
                                           'product_class': product_class_check.id,
                                           'quotation_price': xquotation_price,
                                           'color_name':[(4,color_check.id)]})
+
+    def click_to_add_attribute(self):
+        print('nobug')
+
 
     @api.onchange('files')
     def _check_filename(self):
@@ -367,6 +374,3 @@ class Product_class(models.Model):
     _name = 'product.class'
 
     name = fields.Char(string='品名')
-
-
-
