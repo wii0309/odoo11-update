@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="size_table_form" model="ir.ui.view">
+            <field name="name">size_table_form</field>
+            <field name="model">size.table</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="size_num"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="size_table_tree" model="ir.ui.view">
+            <field name="name">size_table_tree</field>
+            <field name="model">size.table</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="size_num"/>
+                </tree>
+            </field>
+        </record>
+        <record id="size_table_action" model="ir.actions.act_window">
+            <field name="name">size_table_action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">size.table</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+        <menuitem id="attribute_size_table" name="尺寸" parent="manage_attribute" action="size_table_action" sequence="7"/>
+    </data>
+</odoo>

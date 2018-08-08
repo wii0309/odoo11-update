@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="product_class_form" model="ir.ui.view">
+           <field name="name">product_class_form</field>
+           <field name="model">product.class</field>
+           <field name="arch" type="xml">
+               <form string="">
+                   <sheet>
+                       <group>
+                           <field name="name"/>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+        <record id="product_class_tree" model="ir.ui.view">
+            <field name="name">product_class_tree</field>
+            <field name="model">product.class</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="product_class_action" model="ir.actions.act_window">
+            <field name="name">product_class_action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.class</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+            </p>
+            </field>
+        </record>
+        <menuitem id="attribute_product_class" name="品名" parent="manage_attribute" action="product_class_action" sequence="12"/>
+    </data>
+</odoo>

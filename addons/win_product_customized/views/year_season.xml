@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="year_season_form" model="ir.ui.view">
+           <field name="name">year_season_form</field>
+           <field name="model">year.season</field>
+           <field name="arch" type="xml">
+               <form string="">
+                   <sheet>
+                       <group>
+                           <field name="name"/>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+        <record id="year_season_tree" model="ir.ui.view">
+            <field name="name">year_season_tree</field>
+            <field name="model">year.season</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="year_season_action" model="ir.actions.act_window">
+            <field name="name">year_season_action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">year.season</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+        <menuitem id="attribute_year_season" name="年季" parent="manage_attribute" action="year_season_action" sequence="8"/>
+    </data>
+</odoo>
