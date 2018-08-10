@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-       <record id="product_template_inherit" model="ir.ui.view">
-           <field name="name">product_template_inherit</field>
-           <field name="model">product.template</field>
-           <field name="inherit_id" ref="product.product_template_only_form_view"/>
-           <field name="arch" type="xml">
-               <xpath expr="//field[@name='list_price']" position="after">
-                   <field name="wholesale_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-                   <field name="quotation_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
-               </xpath>
-               <xpath expr="//page[@name='general_information']" position="before">
-                   <page string="基本資料">
-                       <group>
+        <record id="product_template_inherit" model="ir.ui.view">
+            <field name="name">product_template_inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='list_price']" position="after">
+                    <field name="wholesale_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                    <field name="quotation_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                </xpath>
+                <xpath expr="//page[@name='general_information']" position="before">
+                    <page string="基本資料">
+                        <group>
                             <group >
                                 <field name="major_manufactor"/>
                                 <field name="brand" />
@@ -29,50 +29,33 @@
                                 <field name="mid_type"/>
                                 <field name="sml_type"/>
                                 <field name="color_name" widget="many2many_tags"/>
-                                <field name="size" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                                <field name="size" widget="many2many_tags"/>
+                                <field name="upload_no"/>
                                 <!--上面是可使many2many無法新增&創建-->
-                                <field name="filename" invisible="1" />
-                                <field name="files" filename="filename" />
+                                <!--<field name="filename" invisible="1" />-->
+                                <!--<field name="files" filename="filename" />-->
                             </group>
-                           <h1>產品資料EXCEL匯入</h1>
-                           <group>
-                               <field name="excel_file"/>
-                               <!--<field name="excel_sheet_num"/>-->
-                               <field name="start_row"/>
-                               <field name="end_row"/>
-                           </group>
-                           <footer>
-                               <button type="object" name="partner_action_import" string="資料匯入" class="oe_highlight"/>
-                               <button special="cancel" string="放棄"/>
-                               <span STYLE='FONT-SIZE:15PX'>__________________________________________________________</span>
-                               <button type="object" name="click_to_add_attribute" string="屬性建立" class="oe_highlight"/>
-                           </footer>
-                       </group>
-                   </page>
-               </xpath>
-           </field>
-       </record>
-       <record id="product_image_template_inherit" model="ir.ui.view">
-           <field name="name">product_image_template_inherit</field>
-           <field name="model">product.template</field>
-           <field name="inherit_id" ref="website_sale.product_template_form_view"/>
-           <field name="arch" type="xml">
-               <xpath expr="//field[@name='product_image_ids']" position="before">
-                   <div class="oe_button_box" name="button_box">
-                        <button name="batch_upload" string="上傳產品照片"
-                                type="object" class="oe_stat_button" icon="fa-cloud-upload">
-                        </button>
-                   </div>
-               </xpath>
-           </field>
-       </record>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <!--<record id="product_image_template_inherit" model="ir.ui.view">-->
+            <!--<field name="name">product_image_template_inherit</field>-->
+            <!--<field name="model">product.template</field>-->
+            <!--<field name="inherit_id" ref="website_sale.product_template_form_view"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//field[@name='product_image_ids']" position="before">-->
+                    <!--<div class="oe_button_box" name="button_box">-->
+                        <!--<button name="batch_upload" string="上傳產品照片"-->
+                                <!--type="object" class="oe_stat_button" icon="fa-cloud-upload">-->
+                        <!--</button>-->
+                    <!--</div>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
 
         <menuitem id="manage_attribute" name="管理屬性" parent="sale.product_menu_catalog" sequence="1"/>
 
-        <!--<record id="show_manuitem" model="ir.ui.view">-->
-            <!--<xpath expr="//field[@name='sale.product_menu_catalog']" position="inside">-->
-                <!--<menuitem id="manage_attribute" name="管理屬性" parent="sale.product_menu_catalog" sequence="1"/>-->
-            <!--</xpath>-->
-        <!--</record>-->
     </data>
 </odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="upload_excel_form" model="ir.ui.view">
+            <field name="name">upload_excel_form</field>
+            <field name="model">upload.excel</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="excel_file"/>
+                            <field name="upload_sequence" invisible="1"/>
+                            <h4>上傳批號刪除</h4>
+                            <field name="delete_sequence"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="delete_by_upload_no" string="批號刪除" class="oe_highlight"/>
+                        <button type="object" name="partner_action_import" string="產品匯入" class="oe_highlight"/>
+                        <button special="cancel" string="取消"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="upload_excel_action" name="匯入產品EXCEL檔" res_model="upload.excel" view_mode="form" target="new" multi="False"/>
+
+        <menuitem id="upload_excel_management" name="EXCEL檔案匯入" parent="manage_attribute" action="upload_excel_action" sequence="12"/>
+    </data>
+</odoo>

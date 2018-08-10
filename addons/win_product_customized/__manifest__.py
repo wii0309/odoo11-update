@@ -11,7 +11,6 @@
 
     'data': [
         'views/product_template_views.xml',
-        'views/manufactor_info.xml',
         'views/big_type.xml',
         'views/brand_type.xml',
         'views/category.xml',
@@ -24,7 +23,7 @@
         'views/size_table.xml',
         'views/product_product_inherit.xml',
         'views/product_class.xml',
-
+        'wizard/upload_excel.xml'
     ],
     # only loaded in demonstration mode
     'demo': [],

@@ -8,8 +8,8 @@
                 <form string="">
                     <sheet>
                         <group>
-                            <field name="name"/>
                             <field name="color_num"/>
+                            <field name="product_attribute_id"/>
                         </group>
                     </sheet>
                 </form>
@@ -20,8 +20,8 @@
             <field name="model">color.table</field>
             <field name="arch" type="xml">
                 <tree string="">
-                    <field name="name"/>
                     <field name="color_num"/>
+                    <field name="product_attribute_id"/>
                 </tree>
             </field>
         </record>
