@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-       <record id="category_name_form" model="ir.ui.view">
-           <field name="name">category_name_form</field>
-           <field name="model">category.name</field>
+       <record id="additional_code_form" model="ir.ui.view">
+           <field name="name">additional_code_form</field>
+           <field name="model">additional.code</field>
            <field name="arch" type="xml">
                <form string="">
                    <sheet>
@@ -15,9 +15,9 @@
                </form>
            </field>
        </record>
-        <record id="category_name_tree" model="ir.ui.view">
-            <field name="name">category_name_tree</field>
-            <field name="model">category.name</field>
+        <record id="additional_code_tree" model="ir.ui.view">
+            <field name="name">additional_code_tree</field>
+            <field name="model">additional.code</field>
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="name"/>
@@ -25,10 +25,10 @@
                 </tree>
             </field>
         </record>
-        <record id="category_name_action" model="ir.actions.act_window">
-            <field name="name">category_name_action</field>
+        <record id="additional_code_action" model="ir.actions.act_window">
+            <field name="name">additional_code_action</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">category.name</field>
+            <field name="res_model">additional.code</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -38,6 +38,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_category_name" name="類別(字頭)" parent="manage_attribute" action="category_name_action" sequence="2"/>
+        <menuitem id="attribute_additional_code" name="追加碼" parent="manage_attribute" action="additional_code_action" sequence="5"/>
     </data>
 </odoo>

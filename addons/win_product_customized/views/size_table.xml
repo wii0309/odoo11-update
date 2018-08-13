@@ -8,8 +8,8 @@
                 <form string="">
                     <sheet>
                         <group>
-                            <field name="size_type"/>
                             <field name="product_attribute_id" />
+                            <field name="size_type"/>
                         </group>
                     </sheet>
                 </form>
@@ -20,8 +20,8 @@
             <field name="model">size.table</field>
             <field name="arch" type="xml">
                 <tree string="">
+                    <field name="product_attribute_id" />
                     <field name="size_type"/>
-                    <field name="product_attribute_id"/>
                 </tree>
             </field>
         </record>
@@ -38,6 +38,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_size_table" name="尺寸" parent="manage_attribute" action="size_table_action" sequence="7"/>
+        <menuitem id="attribute_size_table" name="尺寸碼" parent="manage_attribute" action="size_table_action" sequence="7"/>
     </data>
 </odoo>

@@ -14,15 +14,15 @@ class Addproductinfo(models.Model):
     brand=fields.Many2one('brand.info', string='品牌')
     brand_type=fields.Many2one('brand.type', string='品牌系列')
     year_season=fields.Many2one('year.season', string='年季')
-    category=fields.Many2one('category.name', string='品別')
+    category=fields.Many2one('category.name', string='類別(字頭)')
     inventory_place=fields.Many2one('inventory.place', string='倉儲位置')
     man_type=fields.Many2one('man.type', string='設計師')
     big_type=fields.Many2one('big.type', string='大類')
     mid_type=fields.Many2one('mid.type', string='中類')
     sml_type=fields.Many2one('sml.type', string='小類')
-    color_name = fields.Many2many(comodel_name='color.table', string='顏色')
+    color_name = fields.Many2many(comodel_name='color.table', string='色別碼')
     # color_name = fields.Char(string='顏色')
-    size = fields.Many2many(comodel_name='size.table', string='尺寸')
+    size = fields.Many2many(comodel_name='size.table', string='尺寸碼')
     # size = fields.Char(string='尺寸')
     cloth=fields.Char(string='布料')
     wholesale_price=fields.Float(string='批價')
@@ -31,7 +31,11 @@ class Addproductinfo(models.Model):
     filename = fields.Char()
     upload_no=fields.Char(string='上傳批次號' )
 
-    product_class=fields.Many2one('product.class', string='品名')
+    region_code = fields.Many2many('region.name', string='區域')
+    gift_code = fields.Many2one('gift.code', string='贈品')
+    additional_code=fields.Many2one('additional.code', string='追加碼')
+    new_brand=fields.Char(string='品牌')
+    product_class=fields.Many2one('product.class', string='品項')
 
 
     @api.onchange('files')
@@ -57,27 +61,39 @@ class Addproductinfo(models.Model):
                 str = f.split("_")
                 if str[0] not in tmp:
                     tmp.append(str[0])
+
+
+
         for product_code in tmp:
             product_id = self.env['product.template'].search([('name','=',product_code)])
             if product_id:
                 for fullpath in glob.glob(mypath + '/' + product_id.name + '_*'):
                     image_type = imghdr.what(fullpath)
+                    strs = fullpath.split("_")
                     if image_type:
                         with open(fullpath, "rb") as imageFile:
                             image = base64.b64encode(imageFile.read())
                             filename = os.path.basename(fullpath).split(".")[0]
                             existed = self.env['product.image'].search([('name', '=', filename)])
-                            if existed:
-                                existed.write({
-                                    'image': image
-                                })
-                            else:
-                                self.env['product.image'].create({
-                                    'image': image,
-                                    'name': filename,
-                                    'product_tmpl_id': product_id.id
-                                })
+                            strs_check = strs[0]
+                            filename_check = filename.split("_")[0]  #看產品名
+                            filename_check2= filename.split("_")[1]  #看編號
+                            print(filename_check2)
+                            if filename_check2 != '1':
+                                if existed:
+                                    existed.write({
+                                        'image': image
+                                    })
+                                else:
+                                    self.env['product.image'].create({
+                                        'image': image,
+                                        'name': filename,
+                                        'product_tmpl_id': product_id.id
+                                    })
                         # os.remove(fullpath)
+                            if strs_check.find(filename_check):
+                               if filename_check2 == '1':
+                                product_id.write({'image':image})
             else:
                 raise ValidationError(u'產品 %s 未建立' % product_code)
 
@@ -111,6 +127,7 @@ class Category(models.Model):
     _name = 'category.name'
 
     name = fields.Char(string='種類名')
+    ser_number = fields.Char(string='序號')
 
 class Inventory_place(models.Model):
     _name = 'inventory.place'
@@ -156,7 +173,7 @@ class Color_table(models.Model):
 class Size_table(models.Model):
     _name = 'size.table'
 
-    size_type = fields.Char(string='尺寸號(S,M,F)')
+    size_type = fields.Char(string='尺寸號(OS,OM,OF)')
     product_attribute_id = fields.Many2one('product.attribute.value', string='尺寸')
 
     @api.multi
@@ -171,7 +188,23 @@ class Product_class(models.Model):
     _name = 'product.class'
 
     name = fields.Char(string='品名')
+    ser_number = fields.Char(string='序號')
+
+class Region_code(models.Model):
+    _name = 'region.name'
+
+    name = fields.Char(string='區域')
+    ser_number=fields.Char(string='序號')
 
 
+class Gift_code(models.Model):
+    _name = 'gift.code'
 
+    name = fields.Char(string='贈品')
+    ser_number=fields.Char(string='序號')
 
+class Additonal_code(models.Model):
+    _name = 'additional.code'
+
+    name = fields.Char(string='追加碼')
+    ser_number = fields.Char(string='序號')

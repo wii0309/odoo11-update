@@ -39,6 +39,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_brand_info" name="品牌" parent="manage_attribute" action="brand_info_action" sequence="2"/>
+        <menuitem id="attribute_brand_info" name="品牌" parent="manage_attribute" action="brand_info_action" sequence="8"/>
     </data>
 </odoo>

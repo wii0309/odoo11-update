@@ -36,6 +36,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_year_season" name="年季" parent="manage_attribute" action="year_season_action" sequence="8"/>
+        <menuitem id="attribute_year_season" name="年季" parent="manage_attribute" action="year_season_action" sequence="11"/>
     </data>
 </odoo>

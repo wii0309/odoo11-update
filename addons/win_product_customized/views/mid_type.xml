@@ -36,6 +36,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_mid_type" name="中類" parent="manage_attribute" action="mid_type_action" sequence="10"/>
+        <menuitem id="attribute_mid_type" name="中類" parent="manage_attribute" action="mid_type_action" sequence="13"/>
     </data>
 </odoo>

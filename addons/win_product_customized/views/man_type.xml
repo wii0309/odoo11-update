@@ -36,6 +36,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_man_type" name="設計師" parent="manage_attribute" action="man_type_action" sequence="6"/>
+        <menuitem id="attribute_man_type" name="設計師" parent="manage_attribute" action="man_type_action" sequence="10"/>
     </data>
 </odoo>

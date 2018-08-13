@@ -37,6 +37,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_big_type" name="大類" parent="manage_attribute" action="big_type_action" sequence="9"/>
+        <menuitem id="attribute_big_type" name="大類" parent="manage_attribute" action="big_type_action" sequence="12"/>
     </data>
 </odoo>

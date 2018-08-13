@@ -38,6 +38,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_color_table" name="顏色" parent="manage_attribute" action="color_table_action" sequence="5"/>
+        <menuitem id="attribute_color_table" name="色別碼" parent="manage_attribute" action="color_table_action" sequence="6"/>
     </data>
 </odoo>

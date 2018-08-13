@@ -36,6 +36,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_sml_type" name="小類" parent="manage_attribute" action="sml_type_action" sequence="11"/>
+        <menuitem id="attribute_sml_type" name="小類" parent="manage_attribute" action="sml_type_action" sequence="14"/>
     </data>
 </odoo>

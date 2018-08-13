@@ -39,8 +39,6 @@ class Upload_excel(models.TransientModel):
 
         upload_sequence = uniqueNum
 
-
-
         if not self.excel_file:
             raise UserError(u"檔案錯誤,沒有上傳正確的Excel File")
 
@@ -140,50 +138,50 @@ class Upload_excel(models.TransientModel):
 
                 #以下是做判斷屬性是否存在，若無，可自動新增每一個
 
-                brand_check = self.env['brand.info'].search([('name', '=', xbrand)])
-
-                if not brand_check:
-                    brand_check = self.env['brand.info'].create({'name': xbrand})
-
-                brand_type_check = self.env['brand.type'].search([('name', '=', xbrand_type)])
-
-                if not brand_type_check:
-                    brand_type_check = self.env['brand.type'].create({'name': xbrand_type})
-
-                year_season_check = self.env['year.season'].search([('name', '=', xyear_season)])
-
-                if not year_season_check:
-                    year_season_check = self.env['year.season'].create({'name': xyear_season})
-
-                category_check = self.env['category.name'].search([('name', '=', xcategory)])
-
-                if not category_check:
-                    category_check = self.env['category.name'].create({'name': xcategory})
-
-                man_type_check = self.env['man.type'].search([('name', '=', xman_type)])
-
-                if not man_type_check:
-                    man_type_check = self.env['man.type'].create({'name': xman_type})
-
-                big_type_check = self.env['big.type'].search([('name', '=', xbig_type)])
-
-                if not big_type_check:
-                    big_type_check = self.env['big.type'].create({'name': xbig_type})
-
-                mid_type_check = self.env['mid.type'].search([('name', '=', xmid_type)])
-
-                if not mid_type_check:
-                    mid_type_check = self.env['mid.type'].create({'name': xmid_type})
-
-                sml_type_check = self.env['sml.type'].search([('name', '=', xsml_type)])
-
-                if not sml_type_check:
-                    sml_type_check = self.env['sml.type'].create({'name': xsml_type})
-
-                mm_check=self.env['res.partner'].search([('name','=',xmajor_manufactor)])
-
-                if not mm_check:
-                    mm_check=self.env['res.partner'].create({'name': xmajor_manufactor})
+                # brand_check = self.env['brand.info'].search([('name', '=', xbrand)])
+                #
+                # if not brand_check:
+                #     brand_check = self.env['brand.info'].create({'name': xbrand})
+                #
+                # brand_type_check = self.env['brand.type'].search([('name', '=', xbrand_type)])
+                #
+                # if not brand_type_check:
+                #     brand_type_check = self.env['brand.type'].create({'name': xbrand_type})
+                #
+                # year_season_check = self.env['year.season'].search([('name', '=', xyear_season)])
+                #
+                # if not year_season_check:
+                #     year_season_check = self.env['year.season'].create({'name': xyear_season})
+                #
+                # category_check = self.env['category.name'].search([('name', '=', xcategory)])
+                #
+                # if not category_check:
+                #     category_check = self.env['category.name'].create({'name': xcategory})
+                #
+                # man_type_check = self.env['man.type'].search([('name', '=', xman_type)])
+                #
+                # if not man_type_check:
+                #     man_type_check = self.env['man.type'].create({'name': xman_type})
+                #
+                # big_type_check = self.env['big.type'].search([('name', '=', xbig_type)])
+                #
+                # if not big_type_check:
+                #     big_type_check = self.env['big.type'].create({'name': xbig_type})
+                #
+                # mid_type_check = self.env['mid.type'].search([('name', '=', xmid_type)])
+                #
+                # if not mid_type_check:
+                #     mid_type_check = self.env['mid.type'].create({'name': xmid_type})
+                #
+                # sml_type_check = self.env['sml.type'].search([('name', '=', xsml_type)])
+                #
+                # if not sml_type_check:
+                #     sml_type_check = self.env['sml.type'].create({'name': xsml_type})
+                #
+                # mm_check=self.env['res.partner'].search([('name','=',xmajor_manufactor)])
+                #
+                # if not mm_check:
+                #     mm_check=self.env['res.partner'].create({'name': xmajor_manufactor})
 
                 color_str = xcolor_name.split(',')
                 color_r=[]
@@ -204,25 +202,25 @@ class Upload_excel(models.TransientModel):
                         raise ValidationError(u'錯誤！第%s列的尺寸:%s，未建立' % (row, size_type))
 
 
-                product_class_check = self.env['product.class'].search([('name', '=', xproduct_class)])
-
-                if not product_class_check:
-                    product_class_check = self.env['product.class'].create({'name': xproduct_class})
+                # product_class_check = self.env['product.class'].search([('name', '=', xproduct_class)])
+                #
+                # if not product_class_check:
+                #     product_class_check = self.env['product.class'].create({'name': xproduct_class})
 
                 #開始做產品
                 product_data = product_rec.create({
                     'name': xname,
-                    'major_manufactor': mm_check.id,
-                    'brand_type': brand_type_check.id,
-                    'brand': brand_check.id,
-                    'category': category_check.id,
-                    'year_season': year_season_check.id,
-                    'man_type': man_type_check.id,
-                    'sml_type': sml_type_check.id,
-                    'mid_type': mid_type_check.id,
-                    'big_type': big_type_check.id,
+                    # 'major_manufactor': mm_check.id,
+                    # 'brand_type': brand_type_check.id,
+                    # 'brand': brand_check.id,
+                    # 'category': category_check.id,
+                    # 'year_season': year_season_check.id,
+                    # 'man_type': man_type_check.id,
+                    # 'sml_type': sml_type_check.id,
+                    # 'mid_type': mid_type_check.id,
+                    # 'big_type': big_type_check.id,
                     'size': size_r,
-                    'product_class': product_class_check.id,
+                    # 'product_class': product_class_check.id,
                     'quotation_price': xquotation_price,
                     'color_name':color_r,
                     'upload_no':upload_sequence})
@@ -265,7 +263,19 @@ class Upload_excel(models.TransientModel):
             line.create_variant_ids()
         return True
 
+    # def override_main_image(self):
+
+
+
+
+
+
+
 
     @api.multi
     def delete_by_upload_no(self):
-        self.env["product.template"].search([('upload_no', '=', self.delete_sequence)]).unlink()
+        if  self.env["product.template"].search([('upload_no', '=', self.delete_sequence)]):
+            self.env["product.template"].search([('upload_no', '=', self.delete_sequence)]).unlink()
+        else:
+            raise ValidationError(u"查無此批次號，請重新輸入")
+

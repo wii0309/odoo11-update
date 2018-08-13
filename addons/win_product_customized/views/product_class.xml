@@ -9,6 +9,7 @@
                    <sheet>
                        <group>
                            <field name="name"/>
+                           <field name="ser_number"/>
                        </group>
                    </sheet>
                </form>
@@ -21,6 +22,7 @@
             <field name="arch" type="xml">
                 <tree string="">
                     <field name="name"/>
+                    <field name="ser_number"/>
                 </tree>
             </field>
         </record>
@@ -38,6 +40,6 @@
             </p>
             </field>
         </record>
-        <menuitem id="attribute_product_class" name="品名" parent="manage_attribute" action="product_class_action" sequence="12"/>
+        <menuitem id="attribute_product_class" name="品項" parent="manage_attribute" action="product_class_action" sequence="3"/>
     </data>
 </odoo>
