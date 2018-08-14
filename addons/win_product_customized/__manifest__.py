@@ -19,6 +19,7 @@
         'views/region_code.xml',
         'views/gift_code.xml',
         'views/additional_code.xml',
+        'views/add_res_ser_number.xml',
         'wizard/upload_excel.xml'
         # 'views/man_type.xml',
         # 'views/mid_type.xml',

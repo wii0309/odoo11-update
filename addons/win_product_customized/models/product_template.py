@@ -208,3 +208,8 @@ class Additonal_code(models.Model):
 
     name = fields.Char(string='追加碼')
     ser_number = fields.Char(string='序號')
+
+class Res_inherit(models.Model):
+    _inherit = 'res.partner'
+
+    ser_number = fields.Char(string='序號')
