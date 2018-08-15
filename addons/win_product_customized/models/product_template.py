@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models,tools
-from os import listdir
-import base64
-import imghdr
-from odoo.exceptions import UserError,ValidationError
-import os
-import glob
-
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 class Addproductinfo(models.Model):
     _inherit = 'product.template'
@@ -50,9 +44,6 @@ class Addproductinfo(models.Model):
                     raise ValidationError(u'上傳檔案並非壓縮檔')
         elif not self.files:
             pass
-
-
-
 
 
     @api.onchange('major_manufactor')  #Dynamic domain solution

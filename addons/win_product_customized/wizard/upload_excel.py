@@ -52,12 +52,12 @@ class Upload_excel(models.TransientModel):
             #     xmajor_manufactor = u'' + str((cell.value))
             #     major_manufactor_ser=self.env['res.partner'].search([('name', '=', xmajor_manufactor)])
 
-            cell = sheet.cell(row, 0)  # 貨號
+            cell = sheet.cell(row, 10)  # 貨號
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xname = u'' + str((cell.value))
                 print(xname)
 
-            cell = sheet.cell(row, 1)  # 色號
+            cell = sheet.cell(row, 11)  # 色號
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xcolor = u'' + str((cell.value))
                 color_str = xcolor.split(',')
@@ -69,7 +69,7 @@ class Upload_excel(models.TransientModel):
                     else:
                         raise ValidationError(u'錯誤！第%s列的顏色  :%s，未建立' % (row, color_num))
 
-            cell = sheet.cell(row, 2)  # 尺寸
+            cell = sheet.cell(row, 13)  # 尺寸
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xsize = u'' + str((cell.value))
                 size_str = xsize.split(',')
@@ -80,14 +80,15 @@ class Upload_excel(models.TransientModel):
                         size_r.append([4,size_check.id])
                     else:
                         raise ValidationError(u'錯誤！第%s列的尺寸:%s，未建立' % (row, size_type))
-            print(size_r)
-            print(color_r)
+
             product_data = product_rec.create({
                 'name': xname,
                 # 'major_manufactor': major_manufactor_ser.id,
                 'size': size_r,
                 'color_name':color_r,
-                'upload_no':upload_sequence})
+                'upload_no':upload_sequence,
+                'website_published':True})
+
             self.click_to_add_attribute(product_data)
 
 
@@ -128,6 +129,7 @@ class Upload_excel(models.TransientModel):
         return True
 
     def batch_upload(self):
+        # mypath = "/odoo/product_image"
         mypath = "C:/test_upload_pic"
         files = listdir(mypath)
         tmp = []
