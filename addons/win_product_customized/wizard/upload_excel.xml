@@ -18,10 +18,14 @@
                         <button type="object" name="delete_by_upload_no" string="批號刪除" class="oe_highlight"/>
                         <button type="object" name="partner_action_import" string="產品匯入" class="oe_highlight"/>
                         <button special="cancel" string="取消"/>
+                        <button name="batch_upload" string="上傳產品照片"
+                                type="object" class="oe_stat_button" icon="fa-cloud-upload">
+                        </button>
                     </footer>
                 </form>
             </field>
         </record>
+
 
         <act_window id="upload_excel_action" name="匯入產品EXCEL檔" res_model="upload.excel" view_mode="form" target="new" multi="False"/>
 

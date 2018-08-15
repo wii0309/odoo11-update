@@ -7,7 +7,7 @@
     'description': """
 
         """,
-    'depends': ['base','product','website_sale'],
+    'depends': ['base','product','website_sale','flexiretail_com_advance'],
 
     'data': [
         'views/product_template_views.xml',
@@ -20,6 +20,7 @@
         'views/gift_code.xml',
         'views/additional_code.xml',
         'views/add_res_ser_number.xml',
+        # 'views/product_template_kan_m.xml',
         'wizard/upload_excel.xml'
         # 'views/man_type.xml',
         # 'views/mid_type.xml',

@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="product_template_inherit" model="ir.ui.view">
+         <record id="product_template_inherit" model="ir.ui.view">
             <field name="name">product_template_inherit</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
+
+
+                <!--<xpath expr="//field[@name='image_medium']" position="replace">-->
+                    <!--<field name="org_image" widget="image" class="oe_avatar"/>-->
+                <!--</xpath>-->
+
                 <xpath expr="//field[@name='list_price']" position="after">
                     <field name="wholesale_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
                     <field name="quotation_price" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
@@ -20,8 +26,8 @@
                                 <!--<field name="year_season"/>-->
                                 <field name="new_brand"/>
                                 <field name="region_code" widget="many2many_tags"/>
-                                <field name="gift_code" widget="many2many_tags"/>
-                                <field name="additional_code" widget="many2many_tags"/>
+                                <field name="gift_code"/>
+                                <field name="additional_code" />
                                 <field name="category" options="{'no_create_edit': 1}"/>
                                 <field name="product_class"/>
                                 <!--&lt;!&ndash;上面是可使many2one無法新增&創建&ndash;&gt;-->
@@ -44,20 +50,7 @@
                 </xpath>
             </field>
         </record>
-        <record id="product_image_template_inherit" model="ir.ui.view">
-            <field name="name">product_image_template_inherit</field>
-            <field name="model">product.template</field>
-            <field name="inherit_id" ref="website_sale.product_template_form_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='product_image_ids']" position="before">
-                    <div class="oe_button_box" name="button_box">
-                        <button name="batch_upload" string="上傳產品照片"
-                                type="object" class="oe_stat_button" icon="fa-cloud-upload">
-                        </button>
-                    </div>
-                </xpath>
-            </field>
-        </record>
+
 
         <menuitem id="manage_attribute" name="管理屬性" parent="sale.product_menu_catalog" sequence="1"/>
 

@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
-import base64
-from odoo.exceptions import UserError,ValidationError
 import xlrd
 import datetime
 import random
+from os import listdir
+import base64
+import imghdr
+from odoo.exceptions import UserError,ValidationError
+import os
+import glob
 
 XL_CELL_EMPTY = 0
 XL_CELL_TEXT = 1
@@ -38,50 +42,49 @@ class Upload_excel(models.TransientModel):
 
         self.ensure_one()
         product_rec = self.env['product.template']
+        # for row in range(1, sheet.nrows):
+        xname = ''
+        size_r = []
+        color_r = []
+        for row in range(1, 5):
+            # cell = sheet.cell(row, 0)  #貨源
+            # if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+            #     xmajor_manufactor = u'' + str((cell.value))
+            #     major_manufactor_ser=self.env['res.partner'].search([('name', '=', xmajor_manufactor)])
 
-        for row in range(1, sheet.nrows):
-            cell = sheet.cell(row, 0)  #貨源
-            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
-                xmajor_manufactor = u'' + str((cell.value))
-                major_manufactor_ser=self.env['res.partner'].search([('name', '=', xmajor_manufactor)])
-
-            cell = sheet.cell(row, 1)  # 貨號
+            cell = sheet.cell(row, 0)  # 貨號
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xname = u'' + str((cell.value))
+                print(xname)
 
-            cell = sheet.cell(row, 3)  # 色號
+            cell = sheet.cell(row, 1)  # 色號
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xcolor = u'' + str((cell.value))
                 color_str = xcolor.split(',')
                 color_r = []
                 for color_num in color_str:
-                    color_ser = self.env['color.table'].search([('color_num', '=', color_num)])
+                    color_ser = self.env['color.table'].search([('color_num', '=', color_num.rstrip('.0'))])
                     if color_ser:
                         color_r.append([4,color_ser.id])
                     else:
                         raise ValidationError(u'錯誤！第%s列的顏色  :%s，未建立' % (row, color_num))
 
-            cell = sheet.cell(row, 4)  # 尺寸
+            cell = sheet.cell(row, 2)  # 尺寸
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xsize = u'' + str((cell.value))
                 size_str = xsize.split(',')
                 size_r = []
                 for size_type in size_str:
-                    if size_type =='S':
-                        size_type='OS'
-                    elif size_type =='M':
-                        size_type='OM'
-                    elif size_type =='F':
-                        size_type='OF'
                     size_check = self.env['size.table'].search([('size_type', '=', size_type)])
                     if size_check:
                         size_r.append([4,size_check.id])
                     else:
                         raise ValidationError(u'錯誤！第%s列的尺寸:%s，未建立' % (row, size_type))
-
+            print(size_r)
+            print(color_r)
             product_data = product_rec.create({
                 'name': xname,
-                'major_manufactor': major_manufactor_ser.id,
+                # 'major_manufactor': major_manufactor_ser.id,
                 'size': size_r,
                 'color_name':color_r,
                 'upload_no':upload_sequence})
@@ -123,6 +126,50 @@ class Upload_excel(models.TransientModel):
                     })
             line.create_variant_ids()
         return True
+
+    def batch_upload(self):
+        mypath = "C:/test_upload_pic"
+        files = listdir(mypath)
+        tmp = []
+        for f in files:
+            if imghdr.what(mypath + '/' + f):
+                str = f.split("_")
+                if str[0] not in tmp:
+                    tmp.append(str[0])
+
+        for product_code in tmp:
+            product_id = self.env['product.template'].search([('name', '=', product_code)])
+            if product_id:
+                for fullpath in glob.glob(mypath + '/' + product_id.name + '_*'):
+                    image_type = imghdr.what(fullpath)
+                    strs = fullpath.split("_")
+                    if image_type:
+                        with open(fullpath, "rb") as imageFile:
+                            image = base64.b64encode(imageFile.read())
+                            filename = os.path.basename(fullpath).split(".")[0]
+                            existed = self.env['product.image'].search([('name', '=', filename)])
+                            strs_check = strs[0]
+                            filename_check = filename.split("_")[0]  # 看產品名
+                            filename_check2 = filename.split("_")[1]  # 看編號
+                            print(filename_check2)
+                            if filename_check2 != '1':
+                                if existed:
+                                    existed.write({
+                                        'image': image
+                                    })
+                                else:
+                                    self.env['product.image'].create({
+                                        'image': image,
+                                        'name': filename,
+                                        'product_tmpl_id': product_id.id
+                                    })
+                            # os.remove(fullpath)
+                            if strs_check.find(filename_check):
+                                if filename_check2 == '1':
+                                    product_id.write({'image': image})
+            else:
+                raise ValidationError(u'產品 %s 未建立' % product_code)
+
 
     @api.multi
     def delete_by_upload_no(self):
