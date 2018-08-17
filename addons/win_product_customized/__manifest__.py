@@ -20,15 +20,16 @@
         'views/gift_code.xml',
         'views/additional_code.xml',
         'views/add_res_ser_number.xml',
-        # 'views/product_template_kan_m.xml',
-        'wizard/upload_excel.xml'
-        # 'views/man_type.xml',
+        'views/man_type.xml',
         # 'views/mid_type.xml',
         # 'views/sml_type.xml',
         # 'views/year_season.xml',
         # 'views/brand_info.xml',
         # 'views/big_type.xml',
-        # 'views/brand_type.xml',
+        'views/brand_type.xml',
+        # 'views/product_template_kan_m.xml',
+        'wizard/upload_excel.xml'
+
     ],
     # only loaded in demonstration mode
     'demo': [],

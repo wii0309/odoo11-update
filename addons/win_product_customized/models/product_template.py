@@ -7,9 +7,9 @@ class Addproductinfo(models.Model):
     org_image=fields.Binary()
     major_manufactor=fields.Many2one('res.partner', string='主要廠商')
     brand=fields.Many2one('brand.info', string='品牌')
-    brand_type=fields.Many2one('brand.type', string='品牌系列')
+    # brand_type=fields.Many2one('brand.type', string='品牌系列')
     year_season=fields.Many2one('year.season', string='年季')
-    category=fields.Many2one('category.name', string='類別(字頭)')
+    category=fields.Many2one('category.name', string='品牌系列')
     inventory_place=fields.Many2one('inventory.place', string='倉儲位置')
     man_type=fields.Many2one('man.type', string='設計師')
     big_type=fields.Many2one('big.type', string='大類')
@@ -28,8 +28,13 @@ class Addproductinfo(models.Model):
     gift_code = fields.Many2one(comodel_name='gift.code', string='贈品')
     additional_code=fields.Many2one(comodel_name='additional.code', string='追加碼')
     new_brand=fields.Char(string='品牌')
-    product_class=fields.Many2one(comodel_name='product.class', string='品項')
+    product_class=fields.Many2one(comodel_name='product.class', string='品別')
 
+    memo_add=fields.Text(string='備註')
+    wave_band = fields.Char(string='波段')
+    manufactor_no = fields.Char(string='商品內碼')
+    made_in=fields.Char(string='製造地')
+    material_include=fields.Text(string='成份(請參照右邊成份比例說明)')
 
     @api.onchange('files')
     def _check_filename(self):

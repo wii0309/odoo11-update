@@ -44,20 +44,68 @@ class Upload_excel(models.TransientModel):
         product_rec = self.env['product.template']
         # for row in range(1, sheet.nrows):
         xname = ''
+        xmemo_add=''
+        xwave_band=''
+        xmanufactor_no=''
+        xcost=''
         size_r = []
         color_r = []
-        for row in range(1, 5):
-            # cell = sheet.cell(row, 0)  #貨源
+        for row in range(1, 2):
+            # cell = sheet.cell(row, 0)  #主要廠商
             # if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
             #     xmajor_manufactor = u'' + str((cell.value))
             #     major_manufactor_ser=self.env['res.partner'].search([('name', '=', xmajor_manufactor)])
 
-            cell = sheet.cell(row, 10)  # 貨號
+            cell = sheet.cell(row, 7)  # 貨號
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xname = u'' + str((cell.value))
-                print(xname)
 
-            cell = sheet.cell(row, 11)  # 色號
+            cell = sheet.cell(row, 19)  # 成份
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xmaterial_include= u'' + str((cell.value))
+
+            cell = sheet.cell(row, 18)  #製造地
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xmade_in = u'' + str((cell.value))
+
+            cell = sheet.cell(row, 16)  # 牌價
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xquotation_price = u'' + str((cell.value))
+
+            cell = sheet.cell(row, 13)  #設計師
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xman_type = u'' + str((cell.value))
+                man_type_check = self.env['man.type'].create({'name': xman_type}) ########################
+
+            cell = sheet.cell(row, 12)  # 品別
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xproduct_class = u'' + str((cell.value))
+                product_class_check = self.env['product.class'].create({'name': xproduct_class})
+
+            cell = sheet.cell(row, 11)  # 品牌系列
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xcategory = u'' + str((cell.value))
+                category_check = self.env['category.name'].create({'name': xcategory})
+
+            cell = sheet.cell(row, 3)  # 備註
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xmemo_add = u'' + str((cell.value))
+
+            cell = sheet.cell(row, 6)  # 波段
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xwave_band = u'' + str((cell.value))
+
+            cell = sheet.cell(row, 1)  # 商品內碼
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xmanufactor_no = u'' + str((cell.value))
+
+            cell = sheet.cell(row, 15)  # 成本
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xcost = u'' + str((cell.value))
+
+
+
+            cell = sheet.cell(row, 8)  # 色號
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xcolor = u'' + str((cell.value))
                 color_str = xcolor.split(',')
@@ -69,7 +117,7 @@ class Upload_excel(models.TransientModel):
                     else:
                         raise ValidationError(u'錯誤！第%s列的顏色  :%s，未建立' % (row, color_num))
 
-            cell = sheet.cell(row, 13)  # 尺寸
+            cell = sheet.cell(row, 10)  # 尺寸
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xsize = u'' + str((cell.value))
                 size_str = xsize.split(',')
@@ -83,10 +131,20 @@ class Upload_excel(models.TransientModel):
 
             product_data = product_rec.create({
                 'name': xname,
+                'memo_add':xmemo_add,
+                'wave_band':xwave_band,
+                'manufactor_no':xmanufactor_no,
+                'material_include':xmaterial_include,
+                'made_in':xmade_in,
+                'quotation_price':xquotation_price,
                 # 'major_manufactor': major_manufactor_ser.id,
+                'man_type':man_type_check.id,
+                'product_class':product_class_check.id,
+                'category':category_check.id,
                 'size': size_r,
                 'color_name':color_r,
                 'upload_no':upload_sequence,
+                'standard_price':xcost,
                 'website_published':True})
 
             self.click_to_add_attribute(product_data)
@@ -153,7 +211,7 @@ class Upload_excel(models.TransientModel):
                             strs_check = strs[0]
                             filename_check = filename.split("_")[0]  # 看產品名
                             filename_check2 = filename.split("_")[1]  # 看編號
-                            print(filename_check2)
+
                             if filename_check2 != '1':
                                 if existed:
                                     existed.write({
