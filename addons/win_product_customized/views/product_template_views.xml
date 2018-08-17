@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-         <record id="product_template_inherit" model="ir.ui.view">
+        <record id="product_template_inherit" model="ir.ui.view">
             <field name="name">product_template_inherit</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
 
                 <!--<xpath expr="//field[@name='image_medium']" position="replace">-->
-                    <!--<field name="org_image" widget="image" class="oe_avatar"/>-->
+                <!--<field name="org_image" widget="image" class="oe_avatar"/>-->
                 <!--</xpath>-->
 
                 <xpath expr="//field[@name='list_price']" position="after">
@@ -22,15 +22,17 @@
                                 <field name="wave_band"/>
                                 <field name="manufactor_no"/>
                                 <field name="made_in"/>
+                                <field name="big_type"/>
+                                <field name="year_season"/>
                                 <field name="category" options="{'no_create_edit': 1}"/>
                                 <field name="product_class"/>
                                 <field name="man_type"/>
+                                <!--<field name="mid_type"/>-->
                                 <!--<field name="major_manufactor"/>-->
                                 <!--<field name="man_type"/>-->
                                 <!--<field name="quotation_price"/>-->
                                 <!--<field name="brand" />-->
                                 <!--<field name="brand_type"/>-->
-                                <!--<field name="year_season"/>-->
                                 <!--<field name="new_brand"/>-->
                                 <!--<field name="region_code" widget="many2many_tags"/>-->
                                 <!--<field name="gift_code"/>-->
@@ -39,14 +41,12 @@
                                 <!--<field name="cloth"/>-->
                             </group>
                             <group >
-                                 <field name="memo_add"/>
+                                <field name="memo_add"/>
                                 <field name="material_include"/>
                                 <field name="color_name" widget="many2many_tags"/>
                                 <field name="size" widget="many2many_tags"/>
                                 <field name="upload_no"/>
                                 <field name="filename" invisible="1" />
-                                <!--<field name="big_type"/>-->
-                                <!--<field name="mid_type"/>-->
                                 <!--<field name="sml_type"/>-->
                                 <!--上面是可使many2many無法新增&創建-->
                                 <!--<field name="files" filename="filename" />-->

@@ -42,15 +42,26 @@ class Upload_excel(models.TransientModel):
 
         self.ensure_one()
         product_rec = self.env['product.template']
-        # for row in range(1, sheet.nrows):
+        product_chec=self.env['product.template'].search([])  #導向環境後要加入search才能跑每一筆
+        product_data=[]
         xname = ''
         xmemo_add=''
         xwave_band=''
         xmanufactor_no=''
+        xquotation_price=''
         xcost=''
+        xbig_type=''
         size_r = []
         color_r = []
-        for row in range(1, 2):
+        all_product_name=[]
+
+        for r in product_chec:    #撈出所有產品名
+            if r.name :
+                all_product_name.append(r.name)
+
+
+        # for row in range(1, sheet.nrows):
+        for row in range(1, 4):
             # cell = sheet.cell(row, 0)  #主要廠商
             # if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
             #     xmajor_manufactor = u'' + str((cell.value))
@@ -75,7 +86,7 @@ class Upload_excel(models.TransientModel):
             cell = sheet.cell(row, 13)  #設計師
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xman_type = u'' + str((cell.value))
-                man_type_check = self.env['man.type'].create({'name': xman_type}) ########################
+                man_type_check = self.env['man.type'].create({'name': xman_type})
 
             cell = sheet.cell(row, 12)  # 品別
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
@@ -103,6 +114,13 @@ class Upload_excel(models.TransientModel):
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xcost = u'' + str((cell.value))
 
+            cell = sheet.cell(row, 5)  # 大類
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xbig_type = u'' + str((cell.value))
+
+            cell = sheet.cell(row, 4)  # 年季
+            if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
+                xyear_season = u'' + str((cell.value))
 
 
             cell = sheet.cell(row, 8)  # 色號
@@ -129,25 +147,70 @@ class Upload_excel(models.TransientModel):
                     else:
                         raise ValidationError(u'錯誤！第%s列的尺寸:%s，未建立' % (row, size_type))
 
-            product_data = product_rec.create({
-                'name': xname,
-                'memo_add':xmemo_add,
-                'wave_band':xwave_band,
-                'manufactor_no':xmanufactor_no,
-                'material_include':xmaterial_include,
-                'made_in':xmade_in,
-                'quotation_price':xquotation_price,
-                # 'major_manufactor': major_manufactor_ser.id,
-                'man_type':man_type_check.id,
-                'product_class':product_class_check.id,
-                'category':category_check.id,
-                'size': size_r,
-                'color_name':color_r,
-                'upload_no':upload_sequence,
-                'standard_price':xcost,
-                'website_published':True})
 
-            self.click_to_add_attribute(product_data)
+            if xname not in all_product_name:
+                product_data = product_rec.create({
+                    'name': xname,
+                    'memo_add':xmemo_add,
+                    'wave_band':xwave_band,
+                    'big_type':xbig_type,
+                    'manufactor_no':xmanufactor_no,
+                    'year_season':xyear_season,
+                    'material_include':xmaterial_include,
+                    'made_in':xmade_in,
+                    'quotation_price':xquotation_price,
+                    'man_type':man_type_check.id,
+                    'product_class':product_class_check.id,
+                    'category':category_check.id,
+                    'size': size_r,
+                    'color_name':color_r,
+                    'upload_no':upload_sequence,
+                    'standard_price':xcost,
+                    'website_published':True})
+                self.click_to_add_attribute(product_data)
+
+            else:#已有該產品 要確認變體是否有增加
+                cd_product=self.env['product.template'].search([('name', '=', xname)])
+                if len(cd_product) == 1:
+                    for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id==1):
+                        color_id_search=self.look_for_color_table(xcolor)
+                        if color_id_search.id in row.vaule_ids:
+                            continue
+                        elif color_id_search.id not in row.vaule_ids:
+                            row.write({
+                                'value_ids': [(4, color_id_search.id)]
+                            })
+                            cd_product.create_variant_ids()
+                    for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id==2):
+                        size_id_search=self.look_for_size_table(xsize)
+                        if size_id_search.id in row.vaule_ids:
+                            continue
+                        elif size_id_search.id not in row.vaule_ids:
+                            row.write({
+                                'value_ids': [(4, size_id_search.id)]
+                            })
+                            cd_product.create_variant_ids()
+                    all_product_name.append(xname)
+                elif len(cd_product) > 1:
+                    raise ValidationError(u'錯誤！產品名稱 :%s 重複' % (xname))
+
+            # Product = self.env["product.product"].search([('name','=',xname)])
+            # for line in Product:
+            #     line.attribute_value_ids.mapped()
+    def look_for_color_table(self,color):
+        found_color_id=self.env['color.table'].search([('color_num', '=', color)])
+        if found_color_id:
+            return found_color_id
+        else :
+            raise ValidationError(u'錯誤！顏色  :%s，未建立' % (color))
+
+
+    def look_for_size_table(self,size):
+        found_size_id=self.env['size.table'].search([('size_type', '=', size)])
+        if found_size_id:
+            return found_size_id
+        else :
+            raise ValidationError(u'錯誤！尺寸:%s，未建立' % (size))
 
 
     def click_to_add_attribute(self, line):
