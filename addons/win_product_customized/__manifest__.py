@@ -26,7 +26,7 @@
         # 'views/year_season.xml',
         # 'views/brand_info.xml',
         # 'views/big_type.xml',
-        'views/brand_type.xml',
+        # 'views/brand_type.xml',
         # 'views/product_template_kan_m.xml',
         'wizard/upload_excel.xml'
 

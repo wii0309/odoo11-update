@@ -98,6 +98,7 @@ class Upload_excel(models.TransientModel):
             cell = sheet.cell(row, 11)  # 品牌系列
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xcategory = u'' + str((cell.value))
+                # category_check = self.env['category.name'].create({'name' :xcategory})
                 category_check = self.env['category.name'].search([('name','=',xcategory)])
 
             cell = sheet.cell(row, 3)  # 備註
@@ -173,7 +174,7 @@ class Upload_excel(models.TransientModel):
                 self.click_to_add_attribute(product_data)
                 all_product_name.append(xname)
 
-            elif xname in all_product_name:#已有該產品 要確認變體是否有增加
+            elif xname in all_product_name:     #已有該產品 要確認變體是否有增加
                 cd_product=self.env['product.template'].search([('name', '=', xname)])
                 if len(cd_product) == 1:
                     for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id.id==1):
@@ -188,13 +189,9 @@ class Upload_excel(models.TransientModel):
 
                     for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id.id==2):
                         size_id_search=self.look_for_size_table(xsize)
-
                         if size_id_search.product_attribute_id in row.value_ids:
-                            print("size_id_search.product_attribute_id in row.value_ids:")
                             continue
                         elif size_id_search.product_attribute_id not in row.value_ids:
-                            print(size_id_search.product_attribute_id)
-                            print(row.value_ids)
                             row.write({
                                 'value_ids': [(4, size_id_search.id)]
                             })
@@ -304,7 +301,6 @@ class Upload_excel(models.TransientModel):
                                     product_id.write({'image': image})
             else:
                 raise ValidationError(u'產品 %s 未建立' % product_code)
-
 
     @api.multi
     def delete_by_upload_no(self):

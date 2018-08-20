@@ -38,6 +38,6 @@
               </p>
             </field>
         </record>
-        <menuitem id="attribute_category_name" name="品別" parent="manage_attribute" action="category_name_action" sequence="2"/>
+        <menuitem id="attribute_category_name" name="品牌系列" parent="manage_attribute" action="category_name_action" sequence="2"/>
     </data>
 </odoo>
