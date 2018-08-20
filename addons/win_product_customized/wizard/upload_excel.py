@@ -59,15 +59,8 @@ class Upload_excel(models.TransientModel):
             if r.name :
                 all_product_name.append(r.name)
 
-        # i = 0
         # for row in range(1, sheet.nrows):
         for row in range(1, 4):
-
-            # i += 1
-            # cell = sheet.cell(row, 0)  #主要廠商
-            # if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
-            #     xmajor_manufactor = u'' + str((cell.value))
-            #     major_manufactor_ser=self.env['res.partner'].search([('name', '=', xmajor_manufactor)])
 
             cell = sheet.cell(row, 7)  # 貨號
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
@@ -176,6 +169,7 @@ class Upload_excel(models.TransientModel):
 
             elif xname in all_product_name:     #已有該產品 要確認變體是否有增加
                 cd_product=self.env['product.template'].search([('name', '=', xname)])
+                insert_cd=self.env['product.template']
                 if len(cd_product) == 1:
                     for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id.id==1):
                         color_id_search=self.look_for_color_table(xcolor)
@@ -183,9 +177,11 @@ class Upload_excel(models.TransientModel):
                             continue
                         elif color_id_search.product_attribute_id not in row.value_ids:
                             row.write({
-                                'value_ids': [(4, color_id_search.id)]
+                                'value_ids': [(4, color_id_search.product_attribute_id.id)]  #增加變體
                             })
-                            cd_product.create_variant_ids()
+                            cd_product.write({
+                                'color_name':[(4, color_id_search.id)]   #增加主檔顯示
+                            })
 
                     for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id.id==2):
                         size_id_search=self.look_for_size_table(xsize)
@@ -193,18 +189,16 @@ class Upload_excel(models.TransientModel):
                             continue
                         elif size_id_search.product_attribute_id not in row.value_ids:
                             row.write({
-                                'value_ids': [(4, size_id_search.id)]
+                                'value_ids': [(4, size_id_search.product_attribute_id.id)]
                             })
-                            cd_product.create_variant_ids()
+                            cd_product.write({
+                                'size':[(4, size_id_search.id)]
+                            })
+
+                    cd_product.create_variant_ids()
 
                 elif len(cd_product) >= 1:
                     raise ValidationError(u'錯誤！產品名稱 :%s 重複' % (xname))
-
-
-        # print(i)
-            # Product = self.env["product.product"].search([('name','=',xname)])
-            # for line in Product:
-            #     line.attribute_value_ids.mapped()
 
     def look_for_color_table(self,color):
         found_color_id=self.env['color.table'].search([('color_num', '=', color.rstrip('.0'))])
@@ -213,14 +207,12 @@ class Upload_excel(models.TransientModel):
         else :
             raise ValidationError(u'錯誤！顏色  :%s，未建立' % (color))
 
-
     def look_for_size_table(self,size):
         found_size_id=self.env['size.table'].search([('size_type', '=', size)])
         if found_size_id:
             return found_size_id
         else :
             raise ValidationError(u'錯誤！尺寸:%s，未建立' % (size))
-
 
     def click_to_add_attribute(self, line):
         for color_number in line.color_name:
