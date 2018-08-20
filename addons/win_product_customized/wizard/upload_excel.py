@@ -59,9 +59,11 @@ class Upload_excel(models.TransientModel):
             if r.name :
                 all_product_name.append(r.name)
 
-
+        # i = 0
         # for row in range(1, sheet.nrows):
         for row in range(1, 4):
+
+            # i += 1
             # cell = sheet.cell(row, 0)  #主要廠商
             # if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
             #     xmajor_manufactor = u'' + str((cell.value))
@@ -86,17 +88,17 @@ class Upload_excel(models.TransientModel):
             cell = sheet.cell(row, 13)  #設計師
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xman_type = u'' + str((cell.value))
-                man_type_check = self.env['man.type'].create({'name': xman_type})
+                man_type_check = self.env['man.type'].search([('name','=',xman_type)])
 
             cell = sheet.cell(row, 12)  # 品別
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xproduct_class = u'' + str((cell.value))
-                product_class_check = self.env['product.class'].create({'name': xproduct_class})
+                product_class_check = self.env['product.class'].search([('name','=',xproduct_class)])
 
             cell = sheet.cell(row, 11)  # 品牌系列
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xcategory = u'' + str((cell.value))
-                category_check = self.env['category.name'].create({'name': xcategory})
+                category_check = self.env['category.name'].search([('name','=',xcategory)])
 
             cell = sheet.cell(row, 3)  # 備註
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
@@ -128,27 +130,28 @@ class Upload_excel(models.TransientModel):
                 xcolor = u'' + str((cell.value))
                 color_str = xcolor.split(',')
                 color_r = []
-                for color_num in color_str:
-                    color_ser = self.env['color.table'].search([('color_num', '=', color_num.rstrip('.0'))])
+                for line in color_str:
+                    color_ser = self.env['color.table'].search([('color_num', '=', line.rstrip('.0'))])
                     if color_ser:
                         color_r.append([4,color_ser.id])
                     else:
-                        raise ValidationError(u'錯誤！第%s列的顏色  :%s，未建立' % (row, color_num))
+                        raise ValidationError(u'錯誤！第%s列的顏色  :%s，未建立' % (row, line))
 
             cell = sheet.cell(row, 10)  # 尺寸
             if cell.ctype in (XL_CELL_TEXT, XL_CELL_NUMBER):
                 xsize = u'' + str((cell.value))
                 size_str = xsize.split(',')
                 size_r = []
-                for size_type in size_str:
-                    size_check = self.env['size.table'].search([('size_type', '=', size_type)])
+                for line in size_str:
+                    size_check = self.env['size.table'].search([('size_type', '=', line)])
                     if size_check:
                         size_r.append([4,size_check.id])
                     else:
-                        raise ValidationError(u'錯誤！第%s列的尺寸:%s，未建立' % (row, size_type))
+                        raise ValidationError(u'錯誤！第%s列的尺寸:%s，未建立' % (row, line))
 
 
             if xname not in all_product_name:
+
                 product_data = product_rec.create({
                     'name': xname,
                     'memo_add':xmemo_add,
@@ -168,37 +171,46 @@ class Upload_excel(models.TransientModel):
                     'standard_price':xcost,
                     'website_published':True})
                 self.click_to_add_attribute(product_data)
+                all_product_name.append(xname)
 
-            else:#已有該產品 要確認變體是否有增加
+            elif xname in all_product_name:#已有該產品 要確認變體是否有增加
                 cd_product=self.env['product.template'].search([('name', '=', xname)])
                 if len(cd_product) == 1:
-                    for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id==1):
+                    for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id.id==1):
                         color_id_search=self.look_for_color_table(xcolor)
-                        if color_id_search.id in row.vaule_ids:
+                        if color_id_search.product_attribute_id in row.value_ids:
                             continue
-                        elif color_id_search.id not in row.vaule_ids:
+                        elif color_id_search.product_attribute_id not in row.value_ids:
                             row.write({
                                 'value_ids': [(4, color_id_search.id)]
                             })
                             cd_product.create_variant_ids()
-                    for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id==2):
+
+                    for row in cd_product.attribute_line_ids.filtered(lambda  x :x.attribute_id.id==2):
                         size_id_search=self.look_for_size_table(xsize)
-                        if size_id_search.id in row.vaule_ids:
+
+                        if size_id_search.product_attribute_id in row.value_ids:
+                            print("size_id_search.product_attribute_id in row.value_ids:")
                             continue
-                        elif size_id_search.id not in row.vaule_ids:
+                        elif size_id_search.product_attribute_id not in row.value_ids:
+                            print(size_id_search.product_attribute_id)
+                            print(row.value_ids)
                             row.write({
                                 'value_ids': [(4, size_id_search.id)]
                             })
                             cd_product.create_variant_ids()
-                    all_product_name.append(xname)
-                elif len(cd_product) > 1:
+
+                elif len(cd_product) >= 1:
                     raise ValidationError(u'錯誤！產品名稱 :%s 重複' % (xname))
 
+
+        # print(i)
             # Product = self.env["product.product"].search([('name','=',xname)])
             # for line in Product:
             #     line.attribute_value_ids.mapped()
+
     def look_for_color_table(self,color):
-        found_color_id=self.env['color.table'].search([('color_num', '=', color)])
+        found_color_id=self.env['color.table'].search([('color_num', '=', color.rstrip('.0'))])
         if found_color_id:
             return found_color_id
         else :
