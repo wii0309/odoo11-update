@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="order_imports" model="ir.ui.view">
+            <field name="name">order_imports</field>
+            <field name="model">click_to_import.orders</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="excel_file"/>
+
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="button_import" string="upload" class="oe_highlight"/>
+
+                        <button special="cancel" string="取消"/>
+
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="button_import_action" name="匯入訂單" res_model="click_to_import.orders" view_mode="form" target="new" multi="False"/>
+
+
+        <menuitem id="button_import_orders" name="檔案匯入" parent="sale.sale_order_menu" action="button_import_action" />
+    </data>
+</odoo>
